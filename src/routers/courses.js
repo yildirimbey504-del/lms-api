@@ -1,0 +1,11 @@
+import express from "express";
+import controller from "../controllers/courses.js";
+import authGuard from "../guards/auth-guard.js";
+import { roleGuard } from "../guards/role-guard.js";
+const router = express.Router();
+router.post("/courses", authGuard, roleGuard("teacher", "admin"), controller.createCourse);
+router.get("/courses", controller.getCourses);
+router.get("/courses/:id", controller.getCourse);
+router.put("/courses/:id", authGuard, roleGuard("teacher", "admin"), controller.updateCourse);
+router.delete("/courses/:id", authGuard, roleGuard("teacher", "admin"), controller.deleteCourse);
+export default router;
